@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,7 +20,23 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
+
+
+
+
+
+const BarChart = ({data, datasetName, color}) => {
+
+console.log('DAATA:',data)  
+
+// Extract betweenness centrality and degree centrality data
+const statData = data?? [];
+
+
+const lables = data ? Object.keys(data) : [];
+console.log('Lables:',lables)
+
+const options = {
   responsive: true,
   plugins: {
     legend: {
@@ -27,35 +44,26 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Bar Chart',
+      text: ''+ (datasetName ?? 'Bar Chart'),
     },
   },
   
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const dataset = {
+   labels: lables,
+   datasets: [
+     {
+       label: datasetName ? ""+datasetName : 'No name' ,
+       data: statData ?? [],
+       backgroundColor: ''+color ?? 'rgba(10, 100, 235, .5)',
+     },
+   ],
+ };
 
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [100,200,500,600,800,100,50],
-      backgroundColor: 'rgba(255, 99, 132, .5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => 200),
-      backgroundColor: 'rgba(53, 162, 235, .5)',
-    },
-  ],
-};
-
-
-const BarChart = () => {
   return (
     <div>
-      <Bar options={options} data={data} width={600} height={400}/>
+      <Bar options={options} data={dataset} width={500} height={400}/>
     </div>
   )
 }
