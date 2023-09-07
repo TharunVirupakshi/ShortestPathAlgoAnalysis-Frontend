@@ -7,7 +7,7 @@ export function ApiDataProvider({ children }) {
   const [metricsData, setMetricsData] = useState(null);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:5000/get_random_graph')
+    axios.get('http://127.0.0.1:5000/get_rand_graph')
       .then(response => {
         setGraphData(response.data);
       })
@@ -16,8 +16,9 @@ export function ApiDataProvider({ children }) {
       });
   }, []);
 
+
   useEffect(()=> {
-    axios.get('http://127.0.0.1:5000/get_metrics')
+    axios.get('http://127.0.0.1:5000/get_rand_metrics')
     .then(response => {
         setMetricsData(response.data)
     })

@@ -17,31 +17,48 @@ export default function App() {
   const [metrics, setMetrics] = useState(null)
   const [graph, setGraph] = useState(null)
 
-  const [labels, setLables] = useState(null);
+  const [labels, setLabels] = useState(null);
 
   const {graphData, metricsData } = useApiData()
-  console.log(graphData)
-  console.log(metricsData)
-  console.log('Lables in App', labels)
+  console.log('Graph Data [APP]',graphData)
+  console.log('Metrics Data [APP]',metricsData)
+
   
   useEffect(()=>{
     setMetrics(metricsData)
     setGraph(graphData)
-    // setLables(graphData.map(label => graph.nodes.label ))
+    const extractedLabels = graphData?.nodes?.map(node => node.label);
+    setLabels(extractedLabels);
   },[metricsData, graphData])
+
+  // console.log('Lables in App', labels)
 
   return (
     <div className="App">
-      <h2 style={{fontWeight: '900', fontSize: '2em'}}>Network Analysis</h2>
+      <h2 style={{fontWeight: '900', fontSize: '2em', textAlign:'center'}}>Network Analysis</h2>
       <div className="graph-network">
         <VisNetwork data={graph}/>
       </div>
       <div className="stats-container">
       <div className="bar-chart-container">
-        <BarChart data={metrics?.betweenness_centrality} datasetName={'Betweenness Centrality'} color={'rgba(10, 100, 235, .5)'}/>
+        <BarChart 
+          data={metrics?.betweenness_centrality} 
+          datasetName={'Betweenness Centrality'} 
+          color={'rgba(10, 100, 235, .5)'}
+          labelsData = {labels}
+        />
         <BarChart data={metrics?.degree_centrality} datasetName={'Degree Centrality'} color={'rgba(60, 150, 205, .5)'}/>
       </div>
-        <PieChart/>
+      <div className="bar-chart-container">
+        <BarChart 
+          data={metrics?.closeness_centrality} 
+          datasetName={'Closeness Centrality'} 
+          color={'rgba(100, 50, 235, .5)'}
+          labelsData = {labels}
+        />
+       
+      </div>
+        {/* <PieChart/> */}
       </div>
     </div>
   );

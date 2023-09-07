@@ -8,6 +8,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 
 
@@ -25,16 +26,21 @@ ChartJS.register(
 
 
 
-const BarChart = ({data, datasetName, color}) => {
+const BarChart = ({data, datasetName, color, lablesData}) => {
 
 console.log('DAATA:',data)  
 
+const [lables, setLabels] = useState()
 // Extract betweenness centrality and degree centrality data
 const statData = data?? [];
 
+useEffect(()=>{
+  const lablesInfo = lablesData?.map( item => item) ?? [];
+  setLabels(lablesInfo)
+},[lablesData])
 
-const lables = data ? Object.keys(data) : [];
-console.log('Lables:',lables)
+console.log('Revei', lablesData)
+console.log('Lables in bar chart',lables)
 
 const options = {
   responsive: true,

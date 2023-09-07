@@ -18,9 +18,9 @@ const VisNetwork = ({width, height, data}) => {
 		width:'100%',
 		nodes: {
 			shape: "dot",
-			size: 30,
+			size: 40,
 			font: {
-				size: 32,
+				size: 45,
 				color: "#ffffff",
 			},
 			borderWidth: 2,
