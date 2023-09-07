@@ -5,7 +5,7 @@ import { CategoryScale } from "chart.js";
 import './App.css'
 import { useApiData } from "./context/dataProvider";
 
-import { BarChart, PieChart, GraphVisualizer, VisNetwork} from "./components";
+import { BarChart, PieChart, GraphVisualizer, VisNetwork, ShortestPath} from "./components";
 import { useEffect, useState } from "react";
 // import {data } from "vis-network";
 // import {BarChart} from "./components"
@@ -24,6 +24,7 @@ export default function App() {
   console.log('Metrics Data [APP]',metricsData)
 
   
+  
   useEffect(()=>{
     setMetrics(metricsData)
     setGraph(graphData)
@@ -37,8 +38,13 @@ export default function App() {
     <div className="App">
       <h2 style={{fontWeight: '900', fontSize: '2em', textAlign:'center'}}>Network Analysis</h2>
       <div className="graph-network">
-        <VisNetwork data={graph}/>
+        <VisNetwork data={graph} path={[1,2,3,4]}/>
+        <div className="shrtpath">
+         <ShortestPath/>
+        </div>
       </div>
+
+      
       <div className="stats-container">
       <div className="bar-chart-container">
         <BarChart 
