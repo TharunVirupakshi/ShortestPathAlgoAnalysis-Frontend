@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 
-const ShortestPath = () => {
+const ShortestPath = ({setPathArray}) => {
     const [formData, setFormData] = useState({
         source: '',
         target: '',
@@ -30,6 +30,7 @@ const ShortestPath = () => {
             // Handle the response from your backend as needed
             console.log('[SHORTEST PATH]',response.data.shortest_path); // Assuming your backend returns JSON data
             setPath(response.data.shortest_path)
+            setPathArray(response.data.shortest_path)
         } catch (error) {
             console.error('Error:', error);
         }

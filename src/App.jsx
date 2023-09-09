@@ -23,6 +23,10 @@ export default function App() {
   console.log('Graph Data [APP]',graphData)
   console.log('Metrics Data [APP]',metricsData)
 
+  const [path, setPath] = useState([]);
+  useEffect(()=>{
+    console.log("PATH IN app: ", path)
+  }, [path])
   
   
   useEffect(()=>{
@@ -38,9 +42,9 @@ export default function App() {
     <div className="App">
       <h2 style={{fontWeight: '900', fontSize: '2em', textAlign:'center'}}>Network Analysis</h2>
       <div className="graph-network">
-        <VisNetwork data={graph} path={[1,2,3,4]}/>
+        <VisNetwork data={graph} path={path}/>
         <div className="shrtpath">
-         <ShortestPath/>
+         <ShortestPath setPathArray={setPath} pathArray={path}/>
         </div>
       </div>
 

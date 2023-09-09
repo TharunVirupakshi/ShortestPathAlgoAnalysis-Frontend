@@ -10,8 +10,14 @@ const VisNetwork = ({ data, path}) => {
 
 	const nodesArray = data?.nodes? Object.values(data.nodes) : [];
 
-	const edgesArray = data?.links? data.links.map(link => ({ from: link.source, to: link.target }))
+	const edgesArray = data?.links? data.links.map((link, index) => ({ from: link.source, to: link.target, id: index }))
   : [];
+
+  console.log(data)
+
+	
+
+  console.log("Edges Array: ",edgesArray)
 	const options = {
 		autoResize: true,
 		height:'100%',
@@ -46,7 +52,11 @@ const VisNetwork = ({ data, path}) => {
 
 		
 	};
+
 	
+	const network = useRef(null);
+	const nodes = useRef(new DataSet(nodesArray));
+	const edges = useRef(new DataSet(edgesArray));
 	const [pathNodes, setPathNodes] = useState([]);
 
 	useEffect(()=>{
@@ -56,52 +66,109 @@ const VisNetwork = ({ data, path}) => {
 	useEffect(() => {
 		console.log("[DATA Vis]: ", data)
 
-		const nodes = new DataSet(nodesArray);
-		const edges = new DataSet(edgesArray);
+		nodes.current = new DataSet(nodesArray);
+		edges.current = new DataSet(edgesArray);
 		var graph_data = {
-			nodes: nodes,
-			edges: edges,
+			nodes: nodes.current,
+			edges: edges.current,
 		};
 	
-		const network =
+		network.current =
 			container.current &&
 			new Network(container.current, graph_data, options);
 		// console.log("[NETWORK:]",network)
-		if(path){
+		// Cleanup: Destroy the network when the component unmounts
+		return () => {
+			network.current.destroy();
+		};	
+	}, [data]);
+
+
+	useEffect(()=>{
+		console.log("[PATH in Vis]: ", pathNodes ?? [])
+	},[path])
+
+	function findIndicesOfRequiredPairs(links, requiredPairs) {
+		const indices = [];
+		// Access the array stored in the ref using .current
+		links.current.forEach((link, i) => {
+			// console.log("Link item: ", link);
+
+			requiredPairs.forEach(requiredPair => {
+				const { sourceNodeId, targetNodeId } = requiredPair;
+				// console.log("Src nd ",sourceNodeId,"Trgt: ", targetNodeId);
+				if (
+					(link?.from === sourceNodeId && link?.to === targetNodeId) ||
+					(link?.from === targetNodeId && link?.to === sourceNodeId)
+				) {
+					// console.log("Edges Colored: ", i);
+					indices.push(i);
+				}
+			});
+		});
+
+		console.log("Required Edges:::: ", indices);
+		return indices;
+	}
+	const[coloredPaths, setColoredPaths] = useState([]);
+	const[coloredNodes, setColoredNodes] = useState([]);
+	const update = () => {
+		if(pathNodes.length > 0){
 			// Calculate path edges based on pathNodes
+			
 			const pathEdges = [];
 			for (let i = 0; i < pathNodes.length - 1; i++) {
 				const sourceNodeId = pathNodes[i];
 				const targetNodeId = pathNodes[i + 1];
-				const edgeId = `${sourceNodeId}-${targetNodeId}`;
+				const edgeId = {sourceNodeId, targetNodeId};
 				pathEdges.push(edgeId);
 			}
-	
+
+			setColoredNodes(pathEdges);
+			console.log("Calced Paths: ", pathEdges);
+
+			const edgesOfPath = findIndicesOfRequiredPairs(edges,pathEdges)
+			setColoredPaths(edgesOfPath);
+			console.log("Selected Edges:::::::",edgesOfPath)
+
+			//Dimming the rest of the nodes
+			nodes.current.forEach( (item, index) => {
+				nodes.current.update([{ id: index, color:{background: 'gray'},  size: 40 }]);
+			})
+			edges.current.forEach((item, index)=>{
+				edges.current.update([{id: index, color:{ color: 'gray' }, width: 2 }]);
+			})
+
 			// Highlight path nodes by changing their color
 			pathNodes.forEach(nodeId => {
-				nodes.update([{ id: nodeId, color: 'red' }]);
+				nodes.current.update([{ id: nodeId, color:{background: 'red'},  size: 80 }]);
 			});
-	
-			// Highlight path edges by changing their width
-			pathEdges.forEach(edgeId => {
-				edges.update({ id: edgeId, width: 3 });
-			});
+
+			edgesOfPath.forEach(index => {
+				edges.current.update([{id: index, color: { color: 'red' }, width: 15 }])
+			})
+			
+			// // Highlight path edges by changing their width
+			// edgesOfPath.forEach((indices) => {
+			// 	const edge = edges.current.get(edgeId);
+			// 	if (edge) {
+			// 		edge.width = 3; // Adjust to the desired width for path edges
+			// 	}
+			// });
+
+			// Update the edges in the network
+			// edges.current.update(edges.current.get());
+			network.current.fit()
 		}
+	}
 
-		// Call the network fit method to maintain the existing layout
-		network.fit();
-
-		// Cleanup: Destroy the network when the component unmounts
-		return () => {
-			network.destroy();
-		};	
-	}, [container, nodesArray, edgesArray]);
-
+	
 
   
 	return (
 		<div className="graph-container">
 			<div ref={container} style={{ height: '100%', width: '100%' }} />
+			<button onClick={()=>update()}>Update</button>
 		</div>
 	)
   };
