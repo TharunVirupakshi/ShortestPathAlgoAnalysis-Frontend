@@ -2,15 +2,32 @@
 import  { useEffect, useRef, useState } from "react";
 import { Network, DataSet} from "vis-network/standalone";
 import './VisNetwork.css'
+import { useApiData } from "../context/dataProvider";
 
 
-const VisNetwork = ({ data, path}) => {
+
+const VisNetwork = ({ data, path, trigger, setTrigger, setWeight, loading}) => {
+	// const {loading} = useApiData()
+
+	const [isLoading, setIsLoading] = useState(true)
+	useEffect(()=>{
+		setIsLoading(loading)
+
+	},[loading])
+
+	useEffect(()=>{
+		if(trigger){
+			console.log("Triggered..........")
+			update()
+			setTrigger(false);
+		}
+	}, [trigger])
 
 	const container = useRef(null);
 
 	const nodesArray = data?.nodes? Object.values(data.nodes) : [];
 
-	const edgesArray = data?.links? data.links.map((link, index) => ({ from: link.source, to: link.target, id: index }))
+	const edgesArray = data?.links? data.links.map((link, index) => ({ from: link.source, to: link.target, id: index ,weight: link.weight}))
   : [];
 
   console.log(data)
@@ -112,6 +129,9 @@ const VisNetwork = ({ data, path}) => {
 	}
 	const[coloredPaths, setColoredPaths] = useState([]);
 	const[coloredNodes, setColoredNodes] = useState([]);
+
+	var weight = 0;
+
 	const update = () => {
 		if(pathNodes.length > 0){
 			// Calculate path edges based on pathNodes
@@ -143,11 +163,16 @@ const VisNetwork = ({ data, path}) => {
 			pathNodes.forEach(nodeId => {
 				nodes.current.update([{ id: nodeId, color:{background: 'red'},  size: 80 }]);
 			});
+			weight = 0;
 
 			edgesOfPath.forEach(index => {
+				const edge = edges?.current.get(index);
+				weight += edge ? edge.weight : 0; 
 				edges.current.update([{id: index, color: { color: 'red' }, width: 15 }])
+				
 			})
-			
+			console.log("Cost: ",weight)
+			setWeight(weight)
 			// // Highlight path edges by changing their width
 			// edgesOfPath.forEach((indices) => {
 			// 	const edge = edges.current.get(edgeId);
@@ -167,8 +192,21 @@ const VisNetwork = ({ data, path}) => {
   
 	return (
 		<div className="graph-container">
+		
+			{isLoading && <div className="loading-box">
+				<ul class="loading">
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+				<div className="message">
+					Initial request may take longer time due to limitations of free tier
+				</div>
+			
+			</div>}
+			
 			<div ref={container} style={{ height: '100%', width: '100%' }} />
-			<button onClick={()=>update()}>Update</button>
+			{/* <button onClick={()=>update()}>Update</button> */}
 		</div>
 	)
   };

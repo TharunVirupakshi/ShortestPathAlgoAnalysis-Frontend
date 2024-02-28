@@ -1,14 +1,23 @@
+*{
+    font-family: 'Poppins';
+}
 .App{
     width: 100vw;
     padding: 1em;
     box-sizing: border-box;
 }
 
+.title{
+    margin-left: 3em;
+    font-weight: normal;
+}
+
 .graph-network{
     display: flex;
     justify-content: center;
     align-items: center;
-    padding:  3em;
+    padding:  0 3em ;
+    position: relative;
     /* width: 60%; */
 }
 .shrtpath {
@@ -26,3 +35,15 @@
     justify-content: space-evenly;
     padding: 2em 0;
 }
+
+footer {
+    /* background-color: #333; */
+    color: rgb(159, 159, 159);
+    text-align: center;
+    padding: 1em;
+    /* position: fixed; */
+    bottom: 0;
+    width: 100%;
+    font-size: small;
+    font-weight: normal;
+  }

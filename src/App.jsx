@@ -17,17 +17,24 @@ export default function App() {
   const [metrics, setMetrics] = useState(null)
   const [graph, setGraph] = useState(null)
 
+  const [isLoading, setIsLoading] = useState(true)
+
   const [labels, setLabels] = useState(null);
 
-  const {graphData, metricsData } = useApiData()
+  const {graphData, metricsData, loading } = useApiData()
   console.log('Graph Data [APP]',graphData)
   console.log('Metrics Data [APP]',metricsData)
 
   const [path, setPath] = useState([]);
+  const [weight, setWeight] = useState(0);
   useEffect(()=>{
     console.log("PATH IN app: ", path)
-  }, [path])
+    console.log("TotalCost: ",weight)
+  }, [path,weight])
   
+  useEffect(()=>{
+    setIsLoading(loading)
+  },[loading])
   
   useEffect(()=>{
     setMetrics(metricsData)
@@ -40,11 +47,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <h2 style={{fontWeight: '900', fontSize: '2em', textAlign:'center'}}>Network Analysis</h2>
+      <h2 className="title">OptiPath</h2>
       <div className="graph-network">
-        <VisNetwork data={graph} path={path}/>
+        
+        <VisNetwork data={graph} path={path} trigger={triggered} setTrigger={setTriggered} setWeight={setWeight} loading={isLoading}/>
         <div className="shrtpath">
-         <ShortestPath setPathArray={setPath} pathArray={path}/>
+         <ShortestPath setPathArray={setPath} pathArray={path} handleUpdate={()=> triggerUpdateFunction()} weight={weight} setIsLoading={setIsLoading}/>
         </div>
       </div>
 
@@ -70,6 +78,14 @@ export default function App() {
       </div>
         {/* <PieChart/> */}
       </div>
+      <footer>
+        <p>Built by Tharun Virupakshi</p>
+        <p>
+          <a href="https://github.com/TharunVirupakshi/ShortestPathAlgorithmsAnalysis" target="_blank">GitHub </a>
+          |
+          <a href="https://www.linkedin.com/in/tharunvirupakshi/" target="_blank"> LinkedIn</a>
+        </p>
+      </footer>
     </div>
   );
 }

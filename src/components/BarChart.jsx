@@ -28,7 +28,7 @@ ChartJS.register(
 
 const BarChart = ({data, datasetName, color, lablesData}) => {
 
-console.log('DAATA:',data)  
+// console.log('DAATA:',data)  
 
 const [lables, setLabels] = useState()
 // Extract betweenness centrality and degree centrality data
@@ -39,8 +39,8 @@ useEffect(()=>{
   setLabels(lablesInfo)
 },[lablesData])
 
-console.log('Revei', lablesData)
-console.log('Lables in bar chart',lables)
+// console.log('Revei', lablesData)
+// console.log('Lables in bar chart',lables)
 
 const options = {
   responsive: true,
