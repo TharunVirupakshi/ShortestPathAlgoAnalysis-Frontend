@@ -68,8 +68,8 @@ const dataset = {
  };
 
   return (
-    <div>
-      <Bar options={options} data={dataset} width={500} height={400}/>
+    <div className='chart-container'>
+      <Bar options={options} data={dataset} height={200}/>
     </div>
   )
 }

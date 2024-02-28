@@ -3,7 +3,7 @@
      */
   
     width: 100%;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 1em;
     /* border: 1px solid #333; */
     border-radius: 5px;
@@ -60,4 +60,33 @@
   .form-button:hover {
     background-color: #0056b3;
   }
+  @media (max-width: 768px) {
+    .form-input,
+    .form-select {
   
+    padding: .5em;
+   
+    height: 1em;
+  
+  }
+  
+  .form-container {
+    /* max-width: 500px;
+     */
+  
+    width: auto;
+    /* margin: 0 auto; */
+    /* padding: 1em; */
+    font-size: x-small;
+  }
+  
+  .form-button {
+    
+    border-radius: 5px;
+    padding: .5em;
+    cursor: pointer;
+    font-size: x-small;
+  }
+
+  
+  } 

@@ -71,13 +71,19 @@ const handleSubmit = async(event) => {
   fetchCustomGraph(parseInt(formData.num_of_nodes))
 };
 
+const [isOptions, setIsOptions] = useState(false)
+
+const toggleOptions = () => {
+  setIsOptions(prev => !prev)
+}
+
   return (
     <div className="App">
       <h2 className="title large-blur">OptiPath</h2>
       <div className="graph-network">
         
         <VisNetwork data={graph} path={path} trigger={triggered} setTrigger={setTriggered} setWeight={setWeight} loading={isLoading}/>
-        <div className="shrtpath">
+        <div className={`shrtpath ${isOptions ? "shrtpath-visible" : " "}`}>
           <div className="generate-graph-container">
           <form className="form-container" onSubmit={handleSubmit}>
             {/* <h3>Shortest Path Finder</h3> */}
@@ -102,6 +108,13 @@ const handleSubmit = async(event) => {
             </div>
          <ShortestPath setPathArray={setPath} pathArray={path} handleUpdate={()=> triggerUpdateFunction()} weight={weight} setIsLoading={setIsLoading} graph={graphData}/>
         </div>
+        
+
+          <div className="toggle-control-panel-btn" onClick={toggleOptions}>
+            {isOptions ? "Close" : "Options"}
+          </div>
+          
+      
         <div className="stats-btn-container">
           <a className="stats-btn" href="#stats">
             View Metrics
@@ -119,7 +132,10 @@ const handleSubmit = async(event) => {
           color={'rgba(10, 100, 235, .5)'}
           labelsData = {labels}
         />
-        <BarChart data={metrics?.degree_centrality} datasetName={'Degree Centrality'} color={'rgba(60, 150, 205, .5)'}/>
+      </div>
+      <div className="bar-chart-container">
+      <BarChart data={metrics?.degree_centrality} datasetName={'Degree Centrality'} color={'rgba(60, 150, 205, .5)'}/>
+
       </div>
       <div className="bar-chart-container">
         <BarChart 

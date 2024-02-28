@@ -22,7 +22,7 @@ html{
     align-items: center;
     /* padding:  0 3em ; */
     position: relative;
-    /* width: 60%; */
+    width: 100%;
     height: 100vh;
     /* z-index: -1; */
 }
@@ -70,18 +70,23 @@ html{
 }
 .shrtpath {
     padding: 2em;
+    display: flex;
+    flex-direction: column;
     position: absolute;
     right: 0;
     top: 50%;
     /* bottom: 0; */
-    margin-right: 2em;
+    /* margin-right: 2em; */
     transform: translateY(-50%);
     z-index: 999;
 }
 
 .stats-container{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2em;
     max-width: 100vw;
 }
 .bar-chart-container{
@@ -97,9 +102,86 @@ footer {
     padding: 1em;
     /* position: fixed; */
     bottom: 0;
-    width: 100%;
+    /* width: 100%; */
     font-size: small;
     font-weight: normal;
   }
 
+
+  .toggle-control-panel-btn{
+    display: none;
+    visibility: hidden;
+    }
+
+    
+/* Default styles for larger screens */
+.chart-container {
+    width: 500px;
+    /* height: 400px; */
+  }
   
+
+
+@media (max-width: 768px) {
+    /* Adjust styles for screens with a maximum width of 768 pixels */
+    .title {
+        margin-left: 1em; /* Adjust as needed */
+    }
+    .graph-network{
+        max-height: 100vh;
+        /* max-width: 100vw; */
+    }
+   
+   
+
+    .shrtpath {
+        visibility: hidden;
+        position: absolute; /* Change to static for stacking on smaller screens */
+        /* margin-top: 1em; Adjust as needed */
+        left: 50%;
+        top: 50%;
+        /* right: 0; */
+        width: 80%;
+        transform: translate(-50%, -55%);
+        /* background-color: aqua; */
+     
+        
+        /* right: -20em;  */
+    }
+
+    .chart-container {
+        /* background-color: wheat; */
+        width: 100vw;
+        /* height: 300px; */
+      } 
+
+    .toggle-control-panel-btn{
+        position: absolute;
+        visibility:visible;
+        bottom: 0;
+        margin-bottom: 4em;
+        display: block;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: .5em;
+        width: 5em;
+        text-align: center;
+        cursor: pointer;
+        font-size: 14px;
+        z-index: 9999;
+    }
+
+
+  .shrtpath-visible{
+    visibility: visible;
+  }
+
+  .stats-container{
+    max-width: 100vw;
+    padding: 2em;
+    justify-items: center;
+    align-content: center;
+  }
+} 

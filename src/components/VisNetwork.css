@@ -27,7 +27,7 @@
 .loading {
     /* display: inline; */
     
-    /* margin: auto; */
+    margin: auto;
     
     
   }
@@ -93,3 +93,5 @@
       visibility: visible;
     }
   }
+
+  

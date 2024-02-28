@@ -84,6 +84,7 @@ const ShortestPath = ({setPathArray, handleUpdate, weight, setIsLoading, graph})
                         value={formData.algorithm}
                         onChange={handleInputChange}
                         className="form-select"
+                        defaultValue={"select"}
                     >
                         <option value="dijkstra">Dijkstra</option>
                         <option value="dijkstraW">Dijkstra - Weighted</option>
