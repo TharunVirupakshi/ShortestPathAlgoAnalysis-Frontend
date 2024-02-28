@@ -13,10 +13,10 @@ export function ApiDataProvider({ children }) {
   useEffect(() => {
     // Set loading to true before making API requests
     setLoading(true);
-    axios.get(SERVER_URL+'/get_rand_graph')
+    axios.get(`${SERVER_URL}/get_rand_graph`)
       .then(response => {
         setGraphData(response.data);
-        axios.get(SERVER_URL+'/get_rand_metrics')
+        axios.post(SERVER_URL+'/get_metrics',{graph: response.data})
         .then(response => {
             setMetricsData(response.data)
             setLoading(false); // Set loading to false when both requests are completed
@@ -33,11 +33,30 @@ export function ApiDataProvider({ children }) {
   }, []);
 
 
- 
+  const fetchCustomGraph = (nodes) => {
+    // Set loading to true before making API requests
+    setLoading(true);  
+    axios.get(`${SERVER_URL}/get_rand_graph?numNodes=${nodes}`)
+      .then(response => {
+        setGraphData(response.data);
+        axios.post(SERVER_URL+'/get_metrics',{graph: response.data})
+        .then(response => {
+            setMetricsData(response.data)
+            setLoading(false); // Set loading to false when both requests are completed
+        })
+        .catch(error => {
+            console.error('Error fetching metrics data:', error);
+          });
+          })
+      .catch(error => {
+        console.error('Error fetching random graph:', error);
+        setLoading(false); // Set loading to false on error
+      });
+  }
 
 
   return (
-    <ApiDataContext.Provider value={{ graphData , metricsData, loading}}>
+    <ApiDataContext.Provider value={{ graphData , metricsData, loading, fetchCustomGraph}}>
       {children}
     </ApiDataContext.Provider>
   );

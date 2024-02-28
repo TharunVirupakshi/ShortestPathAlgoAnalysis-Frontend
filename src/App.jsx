@@ -21,7 +21,7 @@ export default function App() {
 
   const [labels, setLabels] = useState(null);
 
-  const {graphData, metricsData, loading } = useApiData()
+  const {graphData, metricsData, loading, fetchCustomGraph } = useApiData()
   console.log('Graph Data [APP]',graphData)
   console.log('Metrics Data [APP]',metricsData)
 
@@ -50,6 +50,27 @@ export default function App() {
    setTriggered(true)
    console.log("TRIGGERED...")
   } 
+
+  const [formData, setFormData] = useState({
+    num_of_nodes: null
+  });
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+};
+
+const handleSubmit = async(event) => {
+  event.preventDefault();
+  if(formData.num_of_nodes && formData.num_of_nodes < 30){
+    alert('Enter minimum of 30 nodes!')
+    return
+  }
+
+  console.log('FormData (App.jsx): ', formData)
+  fetchCustomGraph(parseInt(formData.num_of_nodes))
+};
+
   return (
     <div className="App">
       <h2 className="title large-blur">OptiPath</h2>
@@ -57,7 +78,29 @@ export default function App() {
         
         <VisNetwork data={graph} path={path} trigger={triggered} setTrigger={setTriggered} setWeight={setWeight} loading={isLoading}/>
         <div className="shrtpath">
-         <ShortestPath setPathArray={setPath} pathArray={path} handleUpdate={()=> triggerUpdateFunction()} weight={weight} setIsLoading={setIsLoading}/>
+          <div className="generate-graph-container">
+          <form className="form-container" onSubmit={handleSubmit}>
+            {/* <h3>Shortest Path Finder</h3> */}
+            <div className="form-group">
+                    {/* <label htmlFor="num_of_nodes">Number of nodes</label> */}
+                    <input
+                        type="text"
+                        id="num_of_nodes"
+                        name="num_of_nodes"
+                        value={formData.num_of_nodes}
+                        onChange={handleInputChange}
+                        required
+                        className="form-input"
+                        placeholder="Enter the number of nodes"
+                    />
+                </div>
+
+                <button type="submit" className="form-button">
+                    Generate
+                </button>
+            </form>
+            </div>
+         <ShortestPath setPathArray={setPath} pathArray={path} handleUpdate={()=> triggerUpdateFunction()} weight={weight} setIsLoading={setIsLoading} graph={graphData}/>
         </div>
         <div className="stats-btn-container">
           <a className="stats-btn" href="#stats">

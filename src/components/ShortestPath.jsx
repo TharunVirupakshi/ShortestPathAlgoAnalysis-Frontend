@@ -3,7 +3,8 @@ import axios from 'axios';
 import './ShortestPath.css'
 import { SERVER_URL } from "../constants";
 
-const ShortestPath = ({setPathArray, handleUpdate, weight, setIsLoading}) => {
+
+const ShortestPath = ({setPathArray, handleUpdate, weight, setIsLoading, graph}) => {
     const [formData, setFormData] = useState({
         source: '',
         target: '',
@@ -26,6 +27,7 @@ const ShortestPath = ({setPathArray, handleUpdate, weight, setIsLoading}) => {
         
         try {
             const response = await axios.post(SERVER_URL+'/find_shortest_path', {
+                graph: graph,
                 source: parseInt(formData.source),
                 target: parseInt(formData.target),
                 algorithm: formData.algorithm,

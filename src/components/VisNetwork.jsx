@@ -155,10 +155,10 @@ const VisNetwork = ({ data, path, trigger, setTrigger, setWeight, loading}) => {
 
 			//Dimming the rest of the nodes
 			nodes.current.forEach( (item, index) => {
-				nodes.current.update([{ id: index,  size: 40 }]);
+				nodes.current.update([{ id: index, color:{background: 'lightblue'},  size: 40 }]);
 			})
 			edges.current.forEach((item, index)=>{
-				edges.current.update([{id: index, width: 2 }]);
+				edges.current.update([{id: index, color: { color: 'gray' }, width: 2 }]);
 			})
 
 			// Highlight path nodes by changing their color
