@@ -48,21 +48,27 @@ export default function App() {
   const [triggered, setTriggered] = useState(false);
   const triggerUpdateFunction = () => {
    setTriggered(true)
-   console.logO("TRIGGERED...")
+   console.log("TRIGGERED...")
   } 
   return (
     <div className="App">
-      <h2 className="title">OptiPath</h2>
+      <h2 className="title large-blur">OptiPath</h2>
       <div className="graph-network">
         
         <VisNetwork data={graph} path={path} trigger={triggered} setTrigger={setTriggered} setWeight={setWeight} loading={isLoading}/>
         <div className="shrtpath">
          <ShortestPath setPathArray={setPath} pathArray={path} handleUpdate={()=> triggerUpdateFunction()} weight={weight} setIsLoading={setIsLoading}/>
         </div>
+        <div className="stats-btn-container">
+          <a className="stats-btn" href="#stats">
+            View Metrics
+          </a>
+        </div>
       </div>
 
       
-      <div className="stats-container">
+      <div className="stats-container" id="stats">
+
       <div className="bar-chart-container">
         <BarChart 
           data={metrics?.betweenness_centrality} 

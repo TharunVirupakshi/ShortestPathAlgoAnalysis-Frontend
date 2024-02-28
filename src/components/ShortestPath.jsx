@@ -35,6 +35,7 @@ const ShortestPath = ({setPathArray, handleUpdate, weight, setIsLoading}) => {
             console.log('[SHORTEST PATH]',response.data.shortest_path); // Assuming your backend returns JSON data
             setPath(response.data.shortest_path)
             setPathArray(response.data.shortest_path)
+            setTimeout(handleUpdate, 100)
         } catch (error) {
             setIsLoading(false)
             console.error('Error:', error);
