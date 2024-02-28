@@ -3,7 +3,7 @@
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1b1b1b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -14,7 +14,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color:#62aeff;
   text-decoration: inherit;
 }
 a:hover {
@@ -42,7 +42,7 @@ body {
     background-color: #ffffff;
   }
   a:hover {
-    color: #747bff;
+    color: #62aeff;
   }
   button {
     background-color: #f9f9f9;
