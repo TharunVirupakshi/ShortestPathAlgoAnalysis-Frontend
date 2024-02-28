@@ -45,6 +45,11 @@ export default function App() {
 
   // console.log('Lables in App', labels)
 
+  const [triggered, setTriggered] = useState(false);
+  const triggerUpdateFunction = () => {
+   setTriggered(true)
+   console.logO("TRIGGERED...")
+  } 
   return (
     <div className="App">
       <h2 className="title">OptiPath</h2>

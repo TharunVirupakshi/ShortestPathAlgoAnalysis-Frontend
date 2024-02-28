@@ -2,7 +2,6 @@
 import  { useEffect, useRef, useState } from "react";
 import { Network, DataSet} from "vis-network/standalone";
 import './VisNetwork.css'
-import { useApiData } from "../context/dataProvider";
 
 
 
