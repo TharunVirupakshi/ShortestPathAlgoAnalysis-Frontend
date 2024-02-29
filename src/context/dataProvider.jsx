@@ -29,7 +29,9 @@ export function ApiDataProvider({ children }) {
         console.error('Error fetching random graph:', error);
         setLoading(false); // Set loading to false on error
       });
-    
+      
+      
+
   }, []);
 
 

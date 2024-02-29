@@ -190,7 +190,7 @@ const VisNetwork = ({ data, path, trigger, setTrigger, setWeight, loading}) => {
 	}
 
 	
-
+	// setIsLoading(true)
   
 	return (
 		<div className="graph-container">

@@ -151,7 +151,7 @@ footer {
 
     .chart-container {
         /* background-color: wheat; */
-        width: 100vw;
+        width: 85vw;
         /* height: 300px; */
       } 
 
@@ -184,4 +184,6 @@ footer {
     justify-items: center;
     align-content: center;
   }
+
+  
 } 
