@@ -62,6 +62,7 @@ export default function App() {
 
 const handleSubmit = async(event) => {
   event.preventDefault();
+  setIsOptions(false) //Close the panel
   if(formData.num_of_nodes && formData.num_of_nodes < 30){
     alert('Enter minimum of 30 nodes!')
     return
