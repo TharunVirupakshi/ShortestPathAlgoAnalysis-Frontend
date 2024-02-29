@@ -196,7 +196,7 @@ const VisNetwork = ({ data, path, trigger, setTrigger, setWeight, loading}) => {
 		<div className="graph-container">
 		
 			{isLoading && <div className="loading-box">
-				<ul class="loading">
+				<ul className="loading">
 					<li></li>
 					<li></li>
 					<li></li>

@@ -133,9 +133,8 @@ footer {
         margin-left: 1em; /* Adjust as needed */
     }
     .graph-network{
-        max-height: 100vh;
-        max-height: var(--doc-height);
-        /* max-width: 100vw; */
+        height: 100vh;
+        height: 100svh;
     }
    
    
